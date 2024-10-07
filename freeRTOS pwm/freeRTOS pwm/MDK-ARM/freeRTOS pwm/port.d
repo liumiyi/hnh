@@ -1,0 +1,12 @@
+freertos pwm\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3/port.c
+freertos pwm\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+freertos pwm\port.o: D:\keil5\ARM\ARMCC\Bin\..\include\stddef.h
+freertos pwm\port.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+freertos pwm\port.o: ../Core/Inc/FreeRTOSConfig.h
+freertos pwm\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+freertos pwm\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+freertos pwm\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+freertos pwm\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3/portmacro.h
+freertos pwm\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+freertos pwm\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+freertos pwm\port.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h

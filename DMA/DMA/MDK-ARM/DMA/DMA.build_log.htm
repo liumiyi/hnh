@@ -1,0 +1,108 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: μVision V5.40.0.12
+Copyright (C) 2024 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: liu liu ming yi, liu, LIC=VGXG8-3A4DQ-UHG8H-W4J54-VZYPI-6QW50
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.40.0.5
+Toolchain Path:  D:\keil5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 5 (build 528)
+Assembler:       Armasm.exe V5.06 update 5 (build 528)
+Linker/Locator:  ArmLink.exe V5.06 update 5 (build 528)
+Library Manager: ArmAr.exe V5.06 update 5 (build 528)
+Hex Converter:   FromElf.exe V5.06 update 5 (build 528)
+CPU DLL:         SARMCM3.DLL V5.40.0.5
+Dialog DLL:      DCM.DLL V1.17.5.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.3.0.0
+Dialog DLL:      TCM.DLL V1.56.4.0
+ 
+<h2>Project:</h2>
+D:\Cube MX\hnh\DMA\DMA\MDK-ARM\DMA.uvprojx
+Project File Date:  09/28/2024
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 5 (build 528)', folder: 'D:\keil5\ARM\ARMCC\Bin'
+Rebuild target 'DMA'
+assembling startup_stm32f103xb.s...
+compiling main.c...
+../Core/Src/main.c(99): error:  #20: identifier "hdma_usart1_rx" is undefined
+    
+_HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
+../Core/Src/main.c(119): error:  #65: expected a ";"
+  {
+../Core/Src/main.c(141): warning:  #12-D: parsing restarts here after previous syntax error
+                                |
+CC_CLOCKTYPE_PCLK1|
+CC_CLOCKTYPE_PCLK2;
+../Core/Src/main.c(142): warning:  #111-D: statement is unreachable
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+../Core/Src/main.c(142): error:  #20: identifier "RCC_ClkInitStruct" is undefined
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+../Core/Src/main.c(160): warning:  #223-D: function "HAL_PWREx_ControlVoltageScaling" declared implicitly
+    if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+../Core/Src/main.c(160): error:  #20: identifier "PWR_REGULATOR_VOLTAGE_SCALE1" is undefined
+    if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
+../Core/Src/main.c(192): error:  #20: identifier "hdma_usart1_rx" is undefined
+              
+_HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);		   // 手动关闭DMA_IT_HT中断
+../Core/Src/main.c(193): warning:  #223-D: function "memset" declared implicitly
+              memset(rx_buff, 0, BUFF_SIZE);							   // 清除接收缓存
+../Core/Src/main.c(207): error:  #20: identifier "hdma_usart1_rx" is undefined
+  		
+_HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);		   // 手动关闭DMA_IT_HT中断
+../Core/Src/main.c(208): warning:  #223-D: function "memset" declared implicitly
+  		memset(rx_buff, 0, BUFF_SIZE);							   // 清除接收缓存
+../Core/Src/main.c: 5 warnings, 6 errors
+compiling stm32f1xx_hal_msp.c...
+compiling stm32f1xx_hal_tim.c...
+compiling stm32f1xx_hal_tim_ex.c...
+compiling gpio.c...
+compiling dma.c...
+compiling stm32f1xx_hal_gpio_ex.c...
+compiling stm32f1xx_it.c...
+compiling usart.c...
+compiling stm32f1xx_hal.c...
+compiling stm32f1xx_hal_rcc.c...
+compiling stm32f1xx_hal_uart.c...
+compiling stm32f1xx_hal_rcc_ex.c...
+compiling stm32f1xx_hal_gpio.c...
+compiling stm32f1xx_hal_cortex.c...
+compiling stm32f1xx_hal_dma.c...
+compiling system_stm32f1xx.c...
+compiling stm32f1xx_hal_pwr.c...
+compiling stm32f1xx_hal_flash.c...
+compiling stm32f1xx_hal_flash_ex.c...
+compiling stm32f1xx_hal_exti.c...
+"DMA\DMA.axf" - 6 Error(s), 5 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                https://www.keil.com/pack/ARM.CMSIS.6.1.0.pack
+                ARM::CMSIS@6.1.0
+                CMSIS (Common Microcontroller Software Interface Standard)
+   * Component: CORE Version: 6.1.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F1xx_DFP.2.2.0.pack
+                Keil::STM32F1xx_DFP@2.2.0
+                STMicroelectronics STM32F1 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  ./RTE/_DMA
+  D:/keil5/ARM/PACK/ARM/CMSIS/6.1.0/CMSIS/Core/Include
+  D:/keil5/ARM/PACK/Keil/STM32F1xx_DFP/2.2.0/Device/Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE@6.1.0
+      Include file:  CMSIS/Core/Include/tz_context.h
+Target not created.
+Build Time Elapsed:  00:00:04
+</pre>
+</body>
+</html>
