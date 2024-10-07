@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "usart.h": "c",
+        "dma.h": "c",
+        "can.h": "c"
+    }
+}
