@@ -34,7 +34,6 @@ CAN_RxHeaderTypeDef RxMessage;
 uint8_t  aData[8];
 
 Motor_Info motor_info;
-
 /* USER CODE END 0 */
 
 CAN_HandleTypeDef hcan1;
@@ -200,6 +199,8 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
             motor_info.torque_current    = ((aData[4] << 8) | aData[5]);
             motor_info.motor_temperature =   aData[6];
             
+            update_angle(&motor_info);//双环控制角度时，将单圈拓展为多圈
+            
             //串口输出:电机的转子机械电角度(0-8191对应0-360°)、转子转速(RPM)、实际转矩电流(A)
 //            printf("rotor_angle          : %d\n",motor_info.rotor_angle);
 //            printf("rotor_speed          : %d\n",motor_info.rotor_speed);
@@ -214,5 +215,23 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
 //            HAL_CAN_ActivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING);  // The FIFO0 receive interrupt function was enabled again
         }
     }
+}
+
+void update_angle(Motor_Info* motor_info)//单环变多环
+{
+      if (motor_info->c_Init)
+      {
+          if(motor_info->rotor_angle - motor_info->last_ecd > 4096) 
+              motor_info->round_cnt --;
+          else if(motor_info->rotor_angle - motor_info->last_ecd < -4096)
+              motor_info->round_cnt ++;
+      }
+      else
+      {
+          motor_info->c_offset = motor_info->rotor_angle;
+          motor_info->c_Init = 1;
+      }
+        motor_info->last_ecd = motor_info->rotor_angle;
+        motor_info->total_encoder = motor_info->round_cnt * 8192 + motor_info->rotor_angle - motor_info->c_offset;   
 }
 /* USER CODE END 1 */

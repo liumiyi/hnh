@@ -36,8 +36,9 @@ float speedTarget = 300;//速度目标位置（单级）(0-320rpm)
 
 //角度环（串级）
 pid_Cascade_t motor_pid_Cas;//定义串级pid结构体
-float angleTarget = 180;//角度目标位置（串级）
+float angleTarget = 90;//角度目标位置（串级）
 
+float Rotor_angle;
 
 #define ANGLE//SPEED or ANGLE or OPEN
 
@@ -161,12 +162,14 @@ void StartTask01(void *argument)
     Configure_Filter();
     
     #ifdef SPEED
-    pid_init(&motor_pid_Single,15,3,0,25000,25000);
+    pid_init(&motor_pid_Single,40,3,0,25000,25000);
     #endif
     
     #ifdef ANGLE
-    pid_init(&motor_pid_Cas.inner, 40, 3, 0, 25000, 320);
-    pid_init(&motor_pid_Cas.outer, 60, 0, 0, 10000, 320);
+    pid_init(&motor_pid_Cas.inner, 40, 0, 0, 500, 25000);
+    pid_init(&motor_pid_Cas.outer, 5, 0, 0, 500, 10000);
+    motor_info.c_Init = 0;
+    motor_info.round_cnt = 0;
     #endif
     
   /* Infinite loop */
@@ -187,11 +190,9 @@ void StartTask01(void *argument)
       
 #ifdef ANGLE//角度双闭环控制
     /*closed loop control*/
-      taskENTER_CRITICAL();//进入临界区
-      double Rotor_angle = (double)(motor_info.rotor_angle *360.0)/8192.0;//将角度规范到0~360
+      Rotor_angle = (motor_info.total_encoder *360)/8192;//将编码器刻度换成角度
       int16_t set_voltage = pid_CascadeCalc(&motor_pid_Cas,angleTarget,Rotor_angle,motor_info.rotor_speed);
       CAN_Transmit(set_voltage);
-      taskEXIT_CRITICAL();
       printf("angle: %f,%f\n",Rotor_angle,angleTarget);
 #endif
 
@@ -199,7 +200,7 @@ void StartTask01(void *argument)
 //    printf("rotor_speed        : %d\n\n",motor_info.rotor_speed);
 //    printf("torque_current     : %d\n\n\n",motor_info.torque_current);
       
-    vTaskDelay(5);
+    vTaskDelay(1);
   }
   /* USER CODE END StartTask01 */
 }

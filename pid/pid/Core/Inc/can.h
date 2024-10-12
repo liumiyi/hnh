@@ -54,6 +54,10 @@ typedef struct
     int16_t  torque_current;
     uint8_t  motor_temperature;
     int16_t  last_ecd;
+    uint8_t  c_Init;
+    uint16_t round_cnt;
+    int16_t  c_offset;
+    int16_t  total_encoder;
 } Motor_Info;
 extern Motor_Info motor_info;
 
@@ -64,6 +68,7 @@ void MX_CAN1_Init(void);
 /* USER CODE BEGIN Prototypes */
 void Configure_Filter(void);
 void CAN_Transmit(int16_t v);
+void update_angle(Motor_Info* motor_info);
 
 /* USER CODE END Prototypes */
 
