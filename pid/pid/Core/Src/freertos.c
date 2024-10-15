@@ -30,12 +30,12 @@
 #include "usart.h"
 #include <stdio.h>
 
-//速度环（单级）
-pid_struct_t motor_pid_Single;//定义单个pid结构体
-float speedTarget = 300;//速度目标位置（单级）(0-320rpm)
+//速度环（单级�?
+pid_struct_t motor_pid_Single;//定义单个pid结构�?
+float speedTarget = 300;//速度目标位置（单级）(0-380rpm左右)
 
-//角度环（串级）
-pid_Cascade_t motor_pid_Cas;//定义串级pid结构体
+//角度环（串级�?
+pid_Cascade_t motor_pid_Cas;//定义串级pid结构�?
 float angleTarget = 90;//角度目标位置（串级）
 
 float Rotor_angle;
@@ -175,20 +175,18 @@ void StartTask01(void *argument)
   /* Infinite loop */
   for(;;)
   {
-#ifdef OPEN //开环控制
+#ifdef OPEN //�?环控�?
       CAN_Transmit(25000);//[-25000,25000]
 #endif
       
-#ifdef SPEED//速度单闭环控制
+#ifdef SPEED//速度单闭环控�?
       /*open loop control*/
-      taskENTER_CRITICAL();//进入临界区
       int16_t set_voltage = pid_calc(&motor_pid_Single, speedTarget, motor_info.rotor_speed);
       CAN_Transmit(set_voltage);
-      taskEXIT_CRITICAL();
       printf("speed: %d,%f\n",motor_info.rotor_speed,speedTarget);
 #endif
       
-#ifdef ANGLE//角度双闭环控制
+#ifdef ANGLE//角度双闭环控�?
     /*closed loop control*/
       Rotor_angle = (motor_info.total_encoder *360)/8192;//将编码器刻度换成角度
       int16_t set_voltage = pid_CascadeCalc(&motor_pid_Cas,angleTarget,Rotor_angle,motor_info.rotor_speed);

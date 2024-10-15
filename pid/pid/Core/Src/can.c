@@ -141,18 +141,18 @@ void Configure_Filter(void)
     sFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
     sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK;
     sFilterConfig.FilterActivation = ENABLE;
-    sFilterConfig.SlaveStartFilterBank = 0;//为从CAN实例选择启动筛选器组。对于单个CAN实例，此参数没有意义。对于双CAN实例，所有具有较低索引的过滤器组都被分配给主CAN实例，而所有具有较大索引的过滤器组都被分配给从CAN实例。该参数必须为Min_Data = O和Max_Data =27之间的一个数字. 
-    //配置过滤器
+    sFilterConfig.SlaveStartFilterBank = 0;//为从CAN实例选择启动筛�?�器组�?�对于单个CAN实例，此参数没有意义。对于双CAN实例，所有具有较低索引的过滤器组都被分配给主CAN实例，�?�所有具有较大索引的过滤器组都被分配给从CAN实例。该参数必须为Min_Data = O和Max_Data =27之间的一个数�?. 
+    //配置过滤�?
     if(HAL_CAN_ConfigFilter(&hcan1, &sFilterConfig)!=HAL_OK)
     {
         Error_Handler();//_Error_Handler(__FILE__, __LINE__); 
      } 
-     //开启CAN
+     //�?启CAN
      if(HAL_CAN_Start(&hcan1)!=HAL_OK)
      {
         Error_Handler();//_Error_Handler(__FILE__, __LINE__);  
      }
-     //当FIFO0中有消息的时候进入中断
+     //当FIFO0中有消息的时候进入中�?
      if(HAL_CAN_ActivateNotification(&hcan1,CAN_IT_RX_FIFO0_MSG_PENDING)!=HAL_OK)
      {
         Error_Handler();//_Error_Handler(__FILE__, __LINE__); 
@@ -165,7 +165,7 @@ void CAN_Transmit(int16_t v)
   TxMessage.RTR=CAN_RTR_DATA;
   TxMessage.DLC=8;
   
-  TxMessage.StdId=0x1FF;//一个帧只能驱动四个电机
+  TxMessage.StdId=0x1FF;//�?个帧只能驱动四个电机
   
   TxData[0] = (v>>8);
   TxData[1] = (v);
@@ -201,7 +201,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
             
             update_angle(&motor_info);//双环控制角度时，将单圈拓展为多圈
             
-            //串口输出:电机的转子机械电角度(0-8191对应0-360°)、转子转速(RPM)、实际转矩电流(A)
+            //串口输出:电机的转子机械电角度(0-8191对应0-360°)、转子转�?(RPM)、实际转矩电�?(A)
 //            printf("rotor_angle          : %d\n",motor_info.rotor_angle);
 //            printf("rotor_speed          : %d\n",motor_info.rotor_speed);
 //            printf("torque_current       : %d\n",motor_info.torque_current);
@@ -217,7 +217,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef* hcan)
     }
 }
 
-void update_angle(Motor_Info* motor_info)//单环变多环
+void update_angle(Motor_Info* motor_info)//单环变多�?
 {
       if (motor_info->c_Init)
       {
