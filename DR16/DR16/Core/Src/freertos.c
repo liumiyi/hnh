@@ -25,7 +25,12 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "can.h"
+#include "pid.h"
+#include "usart.h"
 
+pid_struct_t motor_pid_Single;//定义单个pid结构使
+float speedTarget = 0;//速度目标位置（单级）(0-380rpm左右)
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -154,9 +159,21 @@ void StartDefaultTask(void *argument)
 void tDR16(void *argument)
 {
   /* USER CODE BEGIN tDR16 */
+    Configure_Filter();
+    pid_init(&motor_pid_Single,40,3,0,25000,25000);
   /* Infinite loop */
   for(;;)
   {
+    int16_t set_voltage = pid_calc(&motor_pid_Single, speedTarget, motor_info.rotor_speed);
+    CAN_Transmit(set_voltage);
+    if(rc.ch0 >= 600||rc.ch1 >= 600)
+    {
+        speedTarget++;
+    }
+    else if(rc.ch0 <= -600||rc.ch1 <= -600)
+    {
+        speedTarget--;
+    }
     vTaskDelay(1);
   }
   /* USER CODE END tDR16 */
@@ -172,10 +189,12 @@ void tDR16(void *argument)
 void tDR16motor(void *argument)
 {
   /* USER CODE BEGIN tDR16motor */
+    
   /* Infinite loop */
   for(;;)
   {
-    vTaskDelay(1);
+    
+    vTaskDelete(NULL);
   }
   /* USER CODE END tDR16motor */
 }

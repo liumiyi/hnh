@@ -35,12 +35,49 @@ extern "C" {
 extern UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN Private defines */
+#define DBUS_MAX_LEN     (50)
+#define DBUS_BUFLEN      (18)
+#define DBUS_HUART       huart2
 
+
+typedef __packed struct
+{
+  int16_t ch0;
+  int16_t ch1;
+  int16_t ch2;
+  int16_t ch3;
+  int16_t roll;
+  uint8_t sw1;
+  uint8_t sw2;
+  uint8_t flag;
+} rc_info_t;
+ 
+#define rc_Init   \
+{                 \
+		0,            \
+		0,            \
+		0,            \
+		0,            \
+		0,            \
+		0,            \
+		0,            \
+		0,            \
+}
+
+static int uart_receive_dma_no_it(UART_HandleTypeDef* huart, uint8_t* pData, uint32_t Size);
+void dbus_uart_init(void);
+uint16_t dma_current_data_counter(DMA_Stream_TypeDef *dma_stream);
+static void uart_rx_idle_callback(UART_HandleTypeDef* huart);
+void uart_receive_handler(UART_HandleTypeDef *huart);
+
+extern uint8_t dbus_buf[DBUS_BUFLEN];
+extern rc_info_t rc;
 /* USER CODE END Private defines */
 
 void MX_USART2_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
+extern uint8_t   dbus_buf[DBUS_BUFLEN];
 
 /* USER CODE END Prototypes */
 

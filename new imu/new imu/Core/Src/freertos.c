@@ -143,13 +143,14 @@ void StartDefaultTask(void *argument)
 * @retval None
 */
 /* USER CODE END Header_StartTask01 */
+    float pitch;
+    float roll;
+    float yaw;
 void StartTask01(void *argument)
 {
   /* USER CODE BEGIN StartTask01 */
     int res=1;
-    float pitch;
-    float roll;
-    float yaw;
+
     int16_t gx,gy,gz,ax,ay,az;
     while(res)
     {
